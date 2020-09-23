@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import *
-import Sudoko_solver as ss
+import Sudoko_solver_algorithm as ss
 
 FPS = 10
 BLACK =    (0,  0,  0)
