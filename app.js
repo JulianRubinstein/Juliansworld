@@ -172,23 +172,3 @@
 	    xmlHttp.open("GET", theUrl, true); // true for asynchronous
 	    xmlHttp.send(null);
 	}
-    
-    //
-    function fillButton(){
-        httpGetAsync("http://127.0.0.1:5003/", function(response){
-                     alert(response)
-                     })
-        }
-
-    //
-//    function fill(){
-//        var board = httpGetAsync("http://127.0.0.1:5003/", function(response){
-//                     alert(response)
-//                     })
-//        }
-//    }
-    
-    //Make Button for sudoku
-    //Add comments
-    //document.getElementById('cell-' + k).disabled = false (and beautify)
-    //Take care of ajax problem?
