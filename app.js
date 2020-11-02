@@ -1,4 +1,4 @@
-    //Function that creates a grid which maps the i,j cordinate to cell number
+   //Function that creates a grid which maps the i,j cordinate to cell number
     function makeGrid(){
               var grid = [[ 0, 1, 2, 3, 4, 5, 6, 7, 8],
                           [9, 10,11,12,13,14,15,16,17],
@@ -28,17 +28,17 @@
         elem.removeAttribute("value")
     }
     
-    //    
+    //Aesthetic function
     function mapValue(cellNum){
         return document.getElementById('cell-' + cellNum).value
         }
       
-    //    
+    //Aesthetic function 
     function mapClass(cellNum){
         return document.getElementById('cell-' + cellNum).className
     }
        
-    //    
+    //A function that checks if a certain cell has a valid number according to sudoku rules    
     function checkIfValid(i,j){
         //Checks if column contains same number
         for (let k=0; k<9; k++){
@@ -73,7 +73,7 @@
         return true
     }
        
-    //    
+    //A function that checks all posibilities for a certain cell using the check if valid function  
     function produceNum(i,j){
         for (n=1; n<10; n++){
             replaceNum(grid[i][j],n)
@@ -87,7 +87,7 @@
         return false
     }
     
-    //    
+    //Similar to above function but instead of checking from zero, checks from the previously held number
     function produceNumBack(i,j){
         var prev = mapValue(grid[i][j])
         for (var n=(1+parseInt(prev)); n<10; n++){
@@ -102,7 +102,7 @@
         return false
     }
     
-    //
+    //Function that cleans the board
     function clean(){
         for (k=0; k<81; k++){
             delNum(k)
@@ -110,7 +110,7 @@
             }
         }
         
-    //    
+    //The main function - This calls producenum and producenumback to solve each cell
     function solve(){
         var i=0, j=0
         while(i!=9){  
@@ -151,18 +151,18 @@
         }
     }
 
-    //
+    //Function that is called when user presses "solve"
     function go(){
-        //defaultCells()
+        defaultCells()
         solve()
     }
 
-    //
+    //Function that is initialized when entering the website
     function init(){
         clean()
     }
     
-    //
+    //A function the sends a request to a local server and recieves a json object to fill the sudoku board
     function httpGetAsync(theUrl, callback) {
 	    var xmlHttp = new XMLHttpRequest();
 	    xmlHttp.onreadystatechange = function() {
@@ -172,3 +172,15 @@
 	    xmlHttp.open("GET", theUrl, true); // true for asynchronous
 	    xmlHttp.send(null);
 	}
+    
+    //Function that is initiated when "fill Board" is pressed
+    function fillButton(){
+        httpGetAsync("http://127.0.0.1:5003/", function(response){
+                     var obj = JSON.parse(response)
+                     for (let k=0; k<40; k++){
+                         console.log(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])
+                         replaceNum(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])}
+                     })
+        }
+
+    init()
