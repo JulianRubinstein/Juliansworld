@@ -175,8 +175,10 @@
 
     //Function that is initiated when "fill Board" is pressed
     function fillButton(){
-        httpGetAsync("http://127.0.0.1:5003/", function(response){
-                     var obj = JSON.parse(response)
+        var url = "https://cors-anywhere.herokuapp.com/http://www.cs.utep.edu/cheon/ws/sudoku/new/?level=1&size=9"
+        httpGetAsync(url, function(response){
+                     var obj = JSON.parse(response)["squares"]
+                     console.log(obj)
                      for (let k=0; k<40; k++){
                          console.log(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])
                          replaceNum(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])}
