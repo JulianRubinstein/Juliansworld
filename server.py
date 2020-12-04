@@ -21,5 +21,3 @@ api.add_resource(Sudoku, "/")
 
 if __name__=="__main__":
     app.run(port=5003, debug=True)
-
-#http://127.0.0.1:5003/

@@ -8,37 +8,37 @@
                           [45,46,47,48,49,50,51,52,53],
                           [54,55,56,57,58,59,60,61,62],
                           [63,64,65,66,67,68,69,70,71],
-                          [72,73,74,75,76,77,78,79,80]] 
+                          [72,73,74,75,76,77,78,79,80]]
               return grid
     }
 
     //Global paramaters "p" that dicatates wether the algorithm moves "forwards" or "backwards" and the grid variable
     var p=1
     var grid = makeGrid()
-        
+
     //This is a function that replaces a cell number with a cell value
     function replaceNum(cellNum, cellValue){
         var elem = document.getElementById('cell-' + cellNum);
-        elem.setAttribute("value", cellValue)    
+        elem.setAttribute("value", cellValue)
     }
-    
+
     //Function that deletes the value of a cell
     function delNum(cellNum){
         var elem = document.getElementById('cell-' + cellNum)
         elem.removeAttribute("value")
     }
-    
+
     //Aesthetic function
     function mapValue(cellNum){
         return document.getElementById('cell-' + cellNum).value
         }
-      
-    //Aesthetic function 
+
+    //Aesthetic function
     function mapClass(cellNum){
         return document.getElementById('cell-' + cellNum).className
     }
-       
-    //A function that checks if a certain cell has a valid number according to sudoku rules    
+
+    //A function that checks if a certain cell has a valid number according to sudoku rules
     function checkIfValid(i,j){
         //Checks if column contains same number
         for (let k=0; k<9; k++){
@@ -48,8 +48,8 @@
                 }
             }
         }
-    
-        
+
+
         //Checks if row contains same number
         for (let k=0; k<9; k++){
             if (k!==j){
@@ -58,7 +58,7 @@
                 }
             }
         }
-        
+
         //Check if block contains same number
         for (let k=i-i%3; k<i+(3-i%3); k++){
             for (l=j-j%3; l<j+(3-j%3); l++){
@@ -69,11 +69,11 @@
                 }
             }
         }
-        
+
         return true
     }
-       
-    //A function that checks all posibilities for a certain cell using the check if valid function  
+
+    //A function that checks all posibilities for a certain cell using the check if valid function
     function produceNum(i,j){
         for (n=1; n<10; n++){
             replaceNum(grid[i][j],n)
@@ -86,7 +86,7 @@
         p=0
         return false
     }
-    
+
     //Similar to above function but instead of checking from zero, checks from the previously held number
     function produceNumBack(i,j){
         var prev = mapValue(grid[i][j])
@@ -101,7 +101,7 @@
         p=0
         return false
     }
-    
+
     //Function that cleans the board
     function clean(){
         for (k=0; k<81; k++){
@@ -109,17 +109,17 @@
             document.getElementById('cell-' + k).className="cell"
             }
         }
-        
+
     //The main function - This calls producenum and producenumback to solve each cell
     function solve(){
         var i=0, j=0
-        while(i!=9){  
+        while(i!=9){
             console.log("hi")
             if (mapClass(grid[i][j])=="cell" & p==1){
                 produceNum(i,j)
             }
             if (mapClass(grid[i][j])=="cell" & p==0){
-                produceNumBack(i,j)  
+                produceNumBack(i,j)
             }
             if (p==1){
                 if (j==8){
@@ -127,10 +127,10 @@
                     j=0
                     }
                 else{
-                    j+=1  
+                    j+=1
                 }
             }
-            if (p==0){        
+            if (p==0){
                 if (j==0){
                     i-=1
                     j=8
@@ -141,7 +141,7 @@
             }
         }
     }
-    
+
     //Makes default values of cells immutable
     function defaultCells(){
         for (let k=0; k<81; k++){
@@ -161,7 +161,7 @@
     function init(){
         clean()
     }
-    
+
     //A function the sends a request to a local server and recieves a json object to fill the sudoku board
     function httpGetAsync(theUrl, callback) {
 	    var xmlHttp = new XMLHttpRequest();
@@ -169,10 +169,10 @@
 	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	            callback(xmlHttp.responseText);
 	    }
-	    xmlHttp.open("GET", theUrl, true); // true for asynchronous
+	    xmlHttp.open("GET", theUrl, true);
 	    xmlHttp.send(null);
 	}
-    
+
     //Function that is initiated when "fill Board" is pressed
     function fillButton(){
         httpGetAsync("http://127.0.0.1:5003/", function(response){
