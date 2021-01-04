@@ -2,16 +2,20 @@
         background-color: lightslategray
       }
 
+      body {
+          text-align:center;
+      }
+
       table {
         border: 2px solid #000000;
-        margin-left:auto; 
+        margin-left:auto;
         margin-right:auto;
       }
 
       td {
         border: 2px solid #000000;
         text-align: center;
-        vertical-align: middle;  
+        vertical-align: middle;
       }
 
       input {
@@ -25,12 +29,12 @@
         background-color: #FFFFFF;
         outline: none;
       }
-        
+
         h1 {
-            
+
             text-align: center;
         }
-        
+
         .button{
             color: white;
             background-color: black;
@@ -39,11 +43,11 @@
             text-align: center;
             padding: 12px 20px;
             margin: 5px;
-            
+
         }
-        
+
         .container {
-          height: 600px;
+          height: 640px;
           position: relative;
           border: 0px solid green;
         }
@@ -56,8 +60,8 @@
           -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
         }
-        
-        
+
+
       #cell-0,  #cell-1,  #cell-2  { border-top:    2px solid #000000; }
       #cell-2,  #cell-11, #cell-20 { border-right:  2px solid #000000; }
       #cell-18, #cell-19, #cell-20 { border-bottom: 2px solid #000000; }
