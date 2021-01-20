@@ -73,6 +73,41 @@ function checkIfValid(i,j){
     return true
 }
 
+//The same as check valid except for allowing empty strings for initial checking
+function checkIfValidInitial(i,j){
+    //Checks if column contains same number
+    if(!(mapValue(grid[i][j])=="")){
+      for (let k=0; k<9; k++){
+          if (k!==i){
+              if (mapValue(grid[i][j]) == mapValue(grid[k][j])){
+                  return false
+              }
+          }
+      }
+
+      //Checks if row contains same number
+      for (let k=0; k<9; k++){
+          if (k!==j){
+              if (mapValue(grid[i][j]) == mapValue(grid[i][k])){
+                  return false
+              }
+          }
+      }
+
+      //Check if block contains same number
+      for (let k=i-i%3; k<i+(3-i%3); k++){
+          for (l=j-j%3; l<j+(3-j%3); l++){
+              if (k!==i || l!==j){
+                  if (mapValue(grid[i][j]) == mapValue(grid[k][l])){
+                      return false
+                  }
+              }
+          }
+      }
+    }
+    return true
+}
+
 //A function that checks all posibilities for a certain cell using the check if valid function
 function produceNum(i,j){
     for (n=1; n<10; n++){
@@ -105,11 +140,26 @@ function produceNumBack(i,j){
 //Function that cleans the board
 function clean(){
     location.reload()
+}
+
+function listener(){
+  let cells = document.getElementsByClassName("cell")
+  for (let i=0; i<81; i++){
+    cells[i].addEventListener('change', function() {
+      cells[i].setAttribute("readonly", true)
+      })
     }
+}
 
 //Function that is called when user presses "solve"
 //The main function - This calls producenum and producenumback to solve each cell
+//When finished, makes all the cells readonly
 function solve(){
+  if (checkValidInput()){
+    alert("Invalid input :(")
+    location.reload()
+    return
+  }
     var i=0, j=0
     while(i!=9){
         if (mapClass(grid[i][j])=="cell" & p==1){
@@ -137,6 +187,12 @@ function solve(){
             }
         }
     }
+
+    let cells = document.getElementsByClassName("cell")
+    for (let i=0; i<81; i++){
+        cells[i].setAttribute("readonly", true)
+      }
+
 }
 
 //Makes default values of cells immutable
@@ -148,24 +204,26 @@ function defaultCells(){
     }
 }
 
+//Initial check that the board has valid input
+function checkValidInput(){
+  let checker
+  let cells = document.getElementsByClassName("cell")
+  let nums = ["1","2","3","4","5","6","7","8","9",""]
+  for (let i=0; i<81; i++){
+      if (!(nums.includes(cells[i].value))){
+            return true
+      }
+    }
 
-//A function the sends a request to a local server and recieves a json object to fill the sudoku board
-function httpGetAsync(theUrl, callback) {
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() {
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-          callback(xmlHttp.responseText);
+  for (let i=0; i<9; i++){
+    for (let j=0; j<9; j++){
+      checker = checkIfValid(i,j)
+      if (checkIfValidInitial(i,j)==false){
+        return true
+      }
+    }
   }
-  xmlHttp.open("GET", theUrl, true);
-  xmlHttp.send(null);
+  return false
 }
 
-//Function that is initiated when "fill Board" is pressed
-function fillButton(){
-    var url = "https://cors-anywhere.herokuapp.com/http://www.cs.utep.edu/cheon/ws/sudoku/new/?level=1&size=9"
-    httpGetAsync(url, function(response){
-                 var obj = JSON.parse(response)["squares"]
-                 for (let k=0; k<40; k++){
-                     replaceNum(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])}
-                 })
-}
+listener()
