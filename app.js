@@ -104,17 +104,14 @@ function produceNumBack(i,j){
 
 //Function that cleans the board
 function clean(){
-    for (k=0; k<81; k++){
-        delNum(k)
-        document.getElementById('cell-' + k).className="cell"
-        }
+    location.reload()
     }
 
+//Function that is called when user presses "solve"
 //The main function - This calls producenum and producenumback to solve each cell
 function solve(){
     var i=0, j=0
     while(i!=9){
-        console.log("hi")
         if (mapClass(grid[i][j])=="cell" & p==1){
             produceNum(i,j)
         }
@@ -151,16 +148,6 @@ function defaultCells(){
     }
 }
 
-//Function that is called when user presses "solve"
-function go(){
-    defaultCells()
-    solve()
-}
-
-//Function that is initialized when entering the website
-function init(){
-    clean()
-}
 
 //A function the sends a request to a local server and recieves a json object to fill the sudoku board
 function httpGetAsync(theUrl, callback) {
@@ -178,11 +165,7 @@ function fillButton(){
     var url = "https://cors-anywhere.herokuapp.com/http://www.cs.utep.edu/cheon/ws/sudoku/new/?level=1&size=9"
     httpGetAsync(url, function(response){
                  var obj = JSON.parse(response)["squares"]
-                 console.log(obj)
                  for (let k=0; k<40; k++){
-                     console.log(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])
                      replaceNum(grid[obj[k]["x"]][obj[k]["y"]],obj[k]["value"])}
                  })
-    }
-
-init()
+}
